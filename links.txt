@@ -1,0 +1,80 @@
+REST API reference and samples
+	http://msdn.microsoft.com/en-us/library/office/jj860569(v=office.15).aspx
+
+
+ANGULARJS TUTORIALS
+	codeproject.com/Articles/637430/Angular-js-example-application
+	angularjs.org 
+	viralpatel.net/blogs/angularjs-controller-tutorial
+
+
+http://code.msdn.microsoft.com/sharepoint/SharePoint-2013-Perform-a-1bf3e87d/sourcecode?fileId=60654&pathId=776264404
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+<div id="toolbarDiv" style="display: none"> 
+        <input type="text" style="width: 200px" id="queryTerms" /> 
+        <input type="button" value="Search" onclick="executeQuery($get('queryTerms').value);" /> 
+    </div> 
+    <div id="resultsDiv"></div>
+    
+
+$(document).ready(function () { 
+    var e = ExecuteOrDelayUntilScriptLoaded(showToolbar, "sp.js"); 
+}); 
+ 
+function showToolbar() { 
+    $("#toolbarDiv").show(); 
+} 
+ 
+function executeQuery(queryTerms) { 
+ 
+    Results = { 
+        element: '', 
+        url: '', 
+ 
+        init: function (element) { 
+            Results.element = element; 
+            Results.url = _spPageContextInfo.webAbsoluteUrl + "/_api/search/query?querytext='" + queryTerms + "'"; 
+        }, 
+ 
+        load: function () { 
+            $.ajax( 
+                    { 
+                        url: Results.url, 
+                        method: "GET", 
+                        headers: { 
+                            "accept": "application/json", 
+                        }, 
+                        success: Results.onSuccess, 
+                        error: Results.onError 
+                    } 
+                ); 
+        }, 
+ 
+        onSuccess: function (data) { 
+            var results = data.d.query.PrimaryQueryResult.RelevantResults.Table.Rows.results; 
+            var html = "<table>"; 
+ 
+            for (var i = 0; i < results.length; i++) { 
+                html += "<tr><td>"; 
+                html += results[i].Cells.results[3].Value; 
+                html += "</td><td>" 
+                html += results[i].Cells.results[6].Value; 
+                html += "</td><tr>"; 
+            } 
+ 
+            html += "</table>"; 
+            Results.element.html(html); 
+        }, 
+ 
+        onError: function (err) { 
+            alert(JSON.stringify(err)); 
+        } 
+    } 
+ 
+    Results.init($('#resultsDiv')); 
+    Results.load(); 
+ 
+} 
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
