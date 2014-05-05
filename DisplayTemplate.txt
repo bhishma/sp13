@@ -1,0 +1,42 @@
+<!--#_
+var url=window.location.href.toString();
+var a = document.createElement('a')
+a.href=url;
+var path=url.toString().toLowerCase().split("/pages/")[0];
+var keyword=a.search.toString();
+var refiners=a.hash.toString();
+var q= keyword+refiners
+
+q1=q.split("#Default=")[1];
+eq1=encodeURIComponent(q1);
+
+q0=encodeURIComponent(url);
+q0=q0.replace(/%3D/g,"**");
+q0=q0.replace(/%253D/g,"**");
+q0=q0.replace(/%23/g,"*");
+
+if(keyword.split("?k=")[1]==undefined){
+q2="";
+}
+else{
+q2=encodeURIComponent(keyword.split("?k=")[1]);
+}
+
+
+if (refiners.split("#Default=")[1]==undefined){
+q3="";
+}
+else{
+q3=encodeURIComponent(refiners.split("#Default=")[1]);
+}
+   _#--> 
+   
+  <!--<li id="SaveSearch"><a title="Save Search" id="SaveSearchLink" href="javascript:OpenPopUpPage('_#=path=#_/Lists/SavedSearches/NewForm.aspx?SearchQuery=_#=q2=#_&Refiners=_#=q3=#_',null,520,460)">Save Search</a></li>  -->
+<li id="SaveSearch"><a title="Save Search" id="SaveSearchLink" href="javascript:OpenPopUpPage('_#=path=#_/Lists/SavedSearches/NewForm.aspx?SearchQuery=_#=q2=#_&Refiners=_#=q3=#_&FullUrl=_#=q0=#_',null,520,460)">Save Search</a></li>  
+  <!--<input type="button" value="Save Search" id="SaveSearchButton" onclick="javascript:OpenPopUpPage('_#=path=#_/Lists/SavedSearches/NewForm.aspx?SearchQuery=_#=q2=#_&Refiners=_#=q3=#_',null,520,370)">-->
+<br/>
+<div>
+ <br/>
+_#=q0=#_
+
+</div>
