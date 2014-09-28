@@ -1,0 +1,96 @@
+* Following people and content REST API reference for SharePoint 2013
+
+FOLLOW
+	Makes the current user start following a user, document, site or tag
+	
+	Endpoint URI structure:
+		POST http://<sitecollection>/<site>/_api/social.following/follow
+		Request parameter: actor 
+			User actor in the URI
+				http://<siteCollection>/<site>/_api/social.following/follow(ActorType=0,AccountName=@v,Id=null)?@v='domain\user'
+			Document actor in the URI
+				http://<siteCollection>/<site>/_api/social.following/follow(ActorType=1,ContentUri=@v,Id=null)?@v='http://server/Shared%20Documents/fileName.docx'
+			Site actor in the URI
+				http://<siteCollection>/<site>/_api/social.following/follow(ActorType=2,ContentUri=@v,Id=null)?@v='http://server/site'
+			Tag actor in the URI
+				http://<siteCollection>/<site>/_api/social.following/follow(ActorType=3,TagGuid='19a4a484-c1dc-4bc5-8c93-bb96245ce928',Id=null)
+	Response FOLLOW
+			The status of the request:
+				0: OK
+				1: AlreadyFollowing
+				2: LimitReached
+				3: InternalError
+				
+				
+STOPFOLLOWING
+	Makes the current user stop follwing a user, document, site, or tag
+	ENDPOINT URI Structure
+		POST http://<sitecollection>/<site>/_api/social.following/stopfollowing
+		
+		User actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/stopfollowing(ActorType=0,AccountName=@v,Id=null)?@v='domain\user'
+		Document actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/stopfollowing(ActorType=1,ContentUri=@v,Id=null)?@v='http://server/Shared%20Documents/fileName.docx'
+		Site actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/stopfollowing(ActorType=2,ContentUri=@v,Id=null)?@v='http://server/site'
+		Tag actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/stopfollowing(ActorType=3,TagGuid='19a4a484-c1dc-4bc5-8c93-bb96245ce928',Id=null)
+		RESPONSE: none
+		
+
+ISFOLLOWED
+	Indicates whether the current user is following a specified user, document, site, or tag
+	
+	Endpoint URI Structure
+		POST http://<sitecollection>/<site>/_api/social.following/isfollowed
+		
+		User actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/isfollowed(ActorType=0,AccountName=@v,Id=null)?@v='domain\user'
+		Document actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/isfollowed(ActorType=1,ContentUri=@v,Id=null)?@v='http://server/Shared%20Documents/fileName.docx'
+		Site actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/isfollowed(ActorType=2,ContentUri=@v,Id=null)?@v='http://server/site'
+		Tag actor in the URI
+			http://<siteCollection>/<site>/_api/social.following/isfollowed(ActorType=3,TagGuid='19a4a484-c1dc-4bc5-8c93-bb96245ce928',Id=null)
+		RESPONSE:bool. true if the current user is following the actor, otherwise false.
+		Following response indicates that the user is not following the specified actor:
+			{"d":{"IsFollowed":false}}
+			
+MY
+	Gets information about the SocialRestFollowingManager instance and information about the current user [MyFollowedDocumentsUri, MyFollowedSitesUri, SocialActor properties]
+	Endpoint URI structure
+	GET http://<sitecollection>/<site>/_api/social.following/my
+	
+MY/FollowedDocumentsUri
+	Gets the URI to the Documents I'm Following page for the current user
+	Endpoint URI structure
+	GET http://<sitecollection>/<site>/_api/social.following/my/followeddocumentsuri
+	
+MY/FollowedSitesUri
+	Gets the URI to the Sites I'm Following page for the current user
+	Endpoint URI structure
+	GET http://<sitecollection>/<site>/_api/social.following/my/followedsitesuri
+
+My/Followed
+	Get users, documents, sites, tags that the current user is following
+	Endpoint URI structure
+	GET http://<sitecollection>/<site>/_api/social.following/my/followed(types=15)
+	Request parameter: types (Type:Int32)
+	The actor types to inclued: 
+		Users=1
+		Documents=2
+		Sites=4
+		Tags=8
+		
+My/FollowedCount
+	Gets the count of users, documents, sites, and tags that the current user is following
+	Endpoint URI structure
+	GET http://<sitecollection>/<site>/_api/social.folowing/my/followedcount(15)
+	Request parameter: types (Type:Int32)
+	The actor types to inclued: 
+		Users=1
+		Documents=2
+		Sites=4
+		Tags=8
+		
+		
