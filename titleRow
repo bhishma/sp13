@@ -1,3 +1,5 @@
+//This file enables the title row in Search Result Page in SharePoint 2013.
+// It's useful when there is a need to use top-nagivation.
 <script type="text/javascript">
 if ($('.ms-searchCenter-refinement').length > 0) {
   $('#s4-titlerow').attr('style', 'display:block !important');
