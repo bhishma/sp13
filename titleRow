@@ -1,0 +1,9 @@
+<script type="text/javascript">
+if ($('.ms-searchCenter-refinement').length > 0) {
+  $('#s4-titlerow').attr('style', 'display:block !important');
+  $('#DeltaPlaceHolderPageTitleInTitleArea').text('Search');
+  $('#searchIcon').hide();
+  $('.ms-searchCenter-refinement').css('margin-top', '0');
+ $('body').append('<style>#s4-titlerow { display: block !important; } #s4-ribbonrow{display:block; height:35px;}</style>');
+}
+</script>
