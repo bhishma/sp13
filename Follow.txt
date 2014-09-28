@@ -191,3 +191,36 @@ CODE EXAMPLE: Start following and stop following a site by using the SharePoint 
 			error:requestFailed
 		});
 	}
+	
+	//Make the current user stop following a site
+	// The request body includes a SocialActorInfo object that represents the site to stop following
+	
+	function stopFollowSite(){
+		$.ajax({
+			url:followingManagerEndPoint+"/stopfollowing",
+			type:"POST",
+			data:JSON.stringify({
+				"actor":{
+					"__metadata":{
+						"type":"SP.Social.SocialActorInfo"
+					},
+					"ActorType":2,
+					"ContentUri":siteUrl,
+					"Id":null
+				}
+			}),
+			headers:{
+				"accept":"application/json;odata=verbose",
+				"content-type":"application/json;odata=verbose",
+				"X-RequestDigetst":$("#__REQUESTDIGEST").val()
+			},
+			success:function(){
+				alert('The user has stopped following the site.');
+			},
+			error:requestFailed			
+		});
+	}
+	
+	function requestFailed(xhr,ajaxOptions,thrownError){
+		alert('Error:\n'+xhr.status+'\n'+thrownError+'\n'+xhr.responseText);
+	}
