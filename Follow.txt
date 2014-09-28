@@ -153,3 +153,41 @@ CODE EXAMPLE: Start following and stop following a site by using the SharePoint 
 			error:requestFailed
 		});
 	}
+	
+	// Make the current user start following a site
+	// the request body includes a SocialActorInfo object that represents the site to follow
+	// the success function reads the response from the REST service
+	
+	function followSite(){
+		$.ajax({
+			url:followingManagerEndpoint+"/follow",
+			type:"POST",
+			data:JSON.stringify({
+				"actor":{
+					"__metadata":{
+						"type":"SP.Social.SocialActorInfo"
+					},
+					"ActorType":2,
+					"ContentUri":siteUrl,
+					"Id":null
+				}
+			}),
+			headers:{
+				"accept":"application/json;odata=verbose",
+				"content-type":"application/json;odata=verbose",
+				"X-RequestDigest":$("#__REQUESTDIGEST").val()
+			},
+			success:function(responseData){
+				stringData=JSON.stringify(responseData);
+				jsonObject=JSON.parse(stringData);
+				var statusMessage={
+					0: 'The user has started following the site.',
+					1: 'The user is already following the site.',
+					2: 'Cannot follow sites, limit was reached.'
+					3: 'An Internal error occured.'
+				}
+				alert(statusMessage[jsonObject.d.Follow]+'Status code= '+jsonObject.d.Follow);
+			},
+			error:requestFailed
+		});
+	}
