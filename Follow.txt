@@ -93,4 +93,63 @@ My/FollowedCount
 		Sites=4
 		Tags=8
 		
-		
+
+
+==========
+CODE EXAMPLE: Start following and stop following a site by using the SharePoint 2013 REST service
+
+	Approach:
+			* Get URI from the query string and construct the endpoint URI <site>/_api/social.following
+			* Build and send a POST request to the ISFOLLOWED endpoint to find out whethere the current user is already following a specified site
+			* Build and send a POST request to the FOLLOW endpoint to start follwing the site
+			* Build and send a POST request to the STOPFOLLOWING endpoint to stop follow the site
+			* Read the JSON response returned by ISFOLLOWED request and the FOLLOW request. The STOPFOLLOWING request doesn't return anything in the response.
+			If the site uses a template that doesn't support following, and UNSUPPORTEDSITE error is returned.
+	
+	
+	CODE SNIPPET:
+	
+	var siteURL="http://<sitecollection>/<site>";
+	var followingManagerEndpoint;
+	
+	$(docuemnt).ready(function(){
+	followingManagerEndPoint=decodeUriComponent(siteURL)+"/_api/social.following";isFollowed();
+	})
+	
+	//Check whether the current user is already following the site. The request body includes a SocialActorInfo object that represents the specified item.
+	//The success function reads the response from the REST service and then toggles the user's following status by calling the appropriate method.
+	
+	function isFollowed(){
+		$.ajax({
+			url:followingManagerEndPoint+"/isFollowed",
+			type:"POST",
+			data:JSON.stringify({
+				"actor":{
+					"__metadata":{
+						"type":"SP.Social.SocialActorInfo"
+						},
+					"ActorType":2,
+					"ContnetUri":siteUrl,
+					"Id":null
+				}
+			}),
+			headers:{
+				"accepts":"application/json;odata=verbose",
+				"content-type":"application/json;odata=verbose",
+				"X-RequestDigest":$("#__REQUESTDIGEST").val()
+			},
+			success:function(responseData){
+				stringData=JSON.stringify(responseData);
+				jsonObject=JSON.parse(stringData);
+				if(jsonObject.d.IsFollowed===true){
+					alert('The user is currently following the site');
+					stopFollowSite();
+				}
+				else{
+					alert('The user is currently NOT following the site');
+					followSite();
+				}
+			},
+			error:requestFailed
+		});
+	}
